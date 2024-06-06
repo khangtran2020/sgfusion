@@ -69,18 +69,17 @@ class Client(object):
 
     def eval_loss(self, split: str) -> Tuple[int, float]:
         with torch.no_grad():
-            with console.status(f"Evaluating {split} for Client {self.cid}") as status:
-                loader = self.tr_loader if split == "train" else self.te_loader
-                num_data = 0
-                total_loss = 0
-                for batch in loader:
-                    inputs, target = self.model.embed_inputs(batch)
-                    inputs = inputs.float().to(self.device)
-                    out = self.model(inputs)
-                    loss = (out - target.to(self.device)).pow(2).sum()
-                    total_loss += loss.item()
-                    num_data += target.size(dim=0)
-                console.log(
-                    f"Done evaluating {split} cluster for client {self.cid}: :white_check_mark:"
-                )
-            return num_data, total_loss
+            loader = self.tr_loader if split == "train" else self.te_loader
+            num_data = 0
+            total_loss = 0
+            for batch in loader:
+                inputs, target = self.model.embed_inputs(batch)
+                inputs = inputs.float().to(self.device)
+                out = self.model(inputs)
+                loss = (out - target.to(self.device)).pow(2).sum()
+                total_loss += loss.item()
+                num_data += target.size(dim=0)
+            console.log(
+                f"Done evaluating {split} cluster for client {self.cid}: :white_check_mark:"
+            )
+        return num_data, total_loss
