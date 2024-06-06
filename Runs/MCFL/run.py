@@ -48,6 +48,7 @@ def run(args: Namespace, data_dict: Dict, device: torch.device, history: Dict):
         )
         best_loss = np.inf
         for step in range(args.num_global_step):
+            console.rule(f"Begin globale step: {step}")
             server.compute_centroid(progress=progress)
             server.broadcast_params(progress=progress)
             for _, client in server.clients.items():
