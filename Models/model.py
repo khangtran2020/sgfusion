@@ -58,10 +58,10 @@ class LSTMTarget(nn.Module):
         context_input_2 = Variable(torch.from_numpy(context_input_2).float()).to(device)
         context_input_1 = self.dropout_context(context_input_1)  # [bs, 450, 4]
         context_input_2 = self.dropout_context(context_input_2)  # [bs, 450, 1]
-        hidden_1 = self.init_hidden(inputs)  # [1, bs, 64]
-        cell_1 = self.init_hidden(inputs)  # [1, bs, 64]
-        hidden_2 = self.init_hidden(inputs)  # [1, bs, 64]
-        cell_2 = self.init_hidden(inputs)  # [1, bs, 64]
+        hidden_1 = self.init_hidden(inputs).to(device)  # [1, bs, 64]
+        cell_1 = self.init_hidden(inputs).to(device)  # [1, bs, 64]
+        hidden_2 = self.init_hidden(inputs).to(device)  # [1, bs, 64]
+        cell_2 = self.init_hidden(inputs).to(device)  # [1, bs, 64]
         out1, (_, _) = self.context_layer_1(
             context_input_1, (hidden_1, cell_1)
         )  # [bs, 450, 64]
