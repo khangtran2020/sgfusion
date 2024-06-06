@@ -1,4 +1,5 @@
 import torch
+import numpy as np
 from utils.console import console
 from argparse import Namespace
 from typing import Dict
@@ -24,7 +25,6 @@ def run(args: Namespace, data_dict: Dict, device: torch.device, history: Dict):
         client = ClientMCFL(
             cid=data_dict[i]["cid"],
             data_path=data_dict[i]["path"],
-            batch_size=args.batch_size,
             updating_steps=args.client_updating_step,
             device=device,
         )
@@ -44,6 +44,7 @@ def run(args: Namespace, data_dict: Dict, device: torch.device, history: Dict):
         task = progress.add_task(
             "[yellow]Global training...", total=args.num_global_step
         )
+        best_loss = np.inf
         for step in range(args.num_global_step):
             server.compute_centroid(progress=progress)
             server.broadcast_params(progress=progress)
@@ -59,4 +60,7 @@ def run(args: Namespace, data_dict: Dict, device: torch.device, history: Dict):
                 )
                 history["tr_loss"].append(train_loss)
                 history["te_loss"].append(test_loss)
+                if test_loss < best_loss:
+                    best_loss = test_loss
+                    server.save_cluster()
             progress.update(task, advance=1)

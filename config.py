@@ -22,6 +22,7 @@ def add_model_group(group):
     group.add_argument(
         "--client_updating_step", type=int, default=5, help="training step of client"
     )
+    group.add_argument("--eval_step", type=int, default=5, help="logging step")
     group.add_argument("--dropout", type=float, default=0.2)
 
 

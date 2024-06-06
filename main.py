@@ -5,6 +5,7 @@ import warnings
 from config import parse_args
 from Data.utils import read_data
 from utils.console import console
+from utils.plotting import plot_learning_curve
 from Runs.MCFL.run import run as run_fedsem
 from utils.utils import seed_everything, print_args, save_dict, init_history
 
@@ -20,13 +21,15 @@ def run(args, date, device):
         data_dict = read_data(args=args)
         args.input_dim = 3
         args.output_dim = 1
+        args.num_client = len(data_dict.keys())
         console.log(f"Done Reading data: :white_check_mark:")
 
     if args.mode == "fedsem":
         history = run_fedsem(
             args=args, data_dict=data_dict, device=device, history=history
         )
-    save_dict(path=os.path.join(args.res_path, f"{args.name}.pkl"), dct=history)
+    save_dict(path=os.path.join("results", f"{args.name}.pkl"), dct=history)
+    plot_learning_curve(args=args, history=history)
 
 
 if __name__ == "__main__":

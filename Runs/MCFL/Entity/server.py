@@ -1,3 +1,4 @@
+import os
 import gc
 import torch
 import numpy as np
@@ -8,18 +9,16 @@ from typing import List
 from collections import OrderedDict
 from utils.console import console
 from rich.progress import Progress
+from utils.utils import save_dict
 from copy import deepcopy
 
 
 class ServerMCFL(Server):
 
-    def __init__(
-        self,
-        num_cluster: int,
-        num_client: int,
-    ) -> None:
+    def __init__(self, num_cluster: int, num_client: int, name: str) -> None:
         super(ServerMCFL, self).__init__(num_client=num_client, num_cluster=num_cluster)
         self.client_dict = {}
+        self.name = name
 
     def init_model(
         self,
@@ -113,3 +112,12 @@ class ServerMCFL(Server):
             console.log(
                 f"Done broadcasting cluster models for Server: :white_check_mark:"
             )
+
+    def save_cluster(self):
+        save_dict(
+            os.path.join("results/models", f"{self.name}-cluster.pkl"),
+            dct=self.client_dict,
+        )
+        for key, model in self.models.items():
+            model = model.to("cpu")
+            torch.save(model, os.path.join("results/model", f"{self.name}-{key}.pt"))
