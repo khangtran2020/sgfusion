@@ -22,24 +22,21 @@ class ClientMCFL(Client):
         )
 
     def compute_cluster(self, params_list: List[OrderedDict]) -> int:
-        with console.status(f"Computing cluster for Client {self.cid}") as status:
-            with torch.no_grad():
-                local_state_dict = self.model.state_dict()
-                d_min = np.inf
-                new_cluster = -1
-                for i, params in enumerate(params_list):
-                    d = 0
-                    for key in local_state_dict.keys():
-                        d += (local_state_dict[key] - params[key]).norm(p=2).item() ** 2
-                    d = np.sqrt(d)
-                    if d_min > d:
-                        d_min = d
-                        new_cluster = i
-            cluster_response = np.zeros(len(params_list))
-            cluster_response[new_cluster] = 1
-            console.log(
-                f"Done computing cluster for client {self.cid}: :white_check_mark:"
-            )
+        with torch.no_grad():
+            local_state_dict = self.model.state_dict()
+            d_min = np.inf
+            new_cluster = -1
+            for i, params in enumerate(params_list):
+                d = 0
+                for key in local_state_dict.keys():
+                    d += (local_state_dict[key] - params[key]).norm(p=2).item() ** 2
+                d = np.sqrt(d)
+                if d_min > d:
+                    d_min = d
+                    new_cluster = i
+        cluster_response = np.zeros(len(params_list))
+        cluster_response[new_cluster] = 1
+        console.log(f"Done computing cluster for client {self.cid}: :white_check_mark:")
         return cluster_response
 
     def train(self, progress: Progress) -> None:
