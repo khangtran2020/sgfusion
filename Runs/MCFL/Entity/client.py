@@ -46,7 +46,7 @@ class ClientMCFL(Client):
         task = progress.add_task("[blue]Training...", total=self.updating_steps)
         for step in range(self.updating_steps):
             for batch in self.tr_loader:
-                inputs, target = self.model.embed_inputs(batch)
+                inputs, target = self.model.embed_inputs(batch, device=self.device)
                 inputs = inputs.float().to(self.device)
                 out = self.model(inputs)
                 loss = (out - target.to(self.device)).pow(2).mean().sqrt()

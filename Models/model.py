@@ -50,12 +50,12 @@ class LSTMTarget(nn.Module):
     def init_hidden(self, x, n_layers=1):
         return Variable(torch.zeros(n_layers, x.size(0), self.hidden_dim))
 
-    def embed_inputs(self, batch):
-        inputs = Variable(torch.tensor(batch[0]["input"]))
+    def embed_inputs(self, batch, device):
+        inputs = Variable(torch.tensor(batch[0]["input"])).to(device)
         context_input_1 = batch[0]["context_input_1"]
         context_input_2 = batch[0]["context_input_2"]
-        context_input_1 = Variable(torch.from_numpy(context_input_1).float())
-        context_input_2 = Variable(torch.from_numpy(context_input_2).float())
+        context_input_1 = Variable(torch.from_numpy(context_input_1).float()).to(device)
+        context_input_2 = Variable(torch.from_numpy(context_input_2).float()).to(device)
         context_input_1 = self.dropout_context(context_input_1)  # [bs, 450, 4]
         context_input_2 = self.dropout_context(context_input_2)  # [bs, 450, 1]
         hidden_1 = self.init_hidden(inputs)  # [1, bs, 64]
