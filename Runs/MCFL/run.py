@@ -50,7 +50,7 @@ def run(args: Namespace, data_dict: Dict, device: torch.device, history: Dict):
         for step in range(args.num_global_step):
             server.compute_centroid(progress=progress)
             server.broadcast_params(progress=progress)
-            for client in server.clients:
+            for _, client in server.clients.items():
                 client.train(progress=progress)
             if (step % args.eval_step) == 0:
                 train_loss = server.evaluate(split="train", progress=progress)
