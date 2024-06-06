@@ -73,9 +73,9 @@ class Client(object):
             num_data = 0
             total_loss = 0
             for batch in loader:
-                inputs, target = self.model.embed_inputs(batch)
+                inputs, target = self.model.embed_inputs(batch, device=self.device)
                 inputs = inputs.float().to(self.device)
-                out = self.model(inputs)
+                out = self.model.forward(inputs, device=self.device)
                 loss = (out - target.to(self.device)).pow(2).sum()
                 total_loss += loss.item()
                 num_data += target.size(dim=0)
