@@ -67,3 +67,4 @@ def run(args: Namespace, data_dict: Dict, device: torch.device, history: Dict):
                     best_loss = test_loss
                     server.save_cluster()
             progress.update(task, advance=1)
+    return history
