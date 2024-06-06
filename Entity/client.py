@@ -21,14 +21,12 @@ class Client(object):
         data_path: str,
         updating_steps: int,
         device: torch.device,
-        debug: bool,
     ) -> None:
         self.data_path = data_path
         self.cid = cid
         self.updating_steps = updating_steps
         self.device = device
         self.cluster = -1
-        self.debug = debug
 
     def set_data(self) -> None:
         with console.status(f"Initializing Data for Client {self.cid}") as status:

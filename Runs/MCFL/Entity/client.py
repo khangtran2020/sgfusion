@@ -18,10 +18,7 @@ class ClientMCFL(Client):
         device: torch.device,
     ) -> None:
         super(ClientMCFL, self).__init__(
-            cid=cid,
-            data_path=data_path,
-            updating_steps=updating_steps,
-            device=device,
+            cid=cid, data_path=data_path, updating_steps=updating_steps, device=device
         )
 
     def compute_cluster(self, params_list: List[OrderedDict]) -> int:
