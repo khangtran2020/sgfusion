@@ -33,7 +33,7 @@ class LSTMTarget(nn.Module):
             hidden_size=self.hidden_dim,
             batch_first=True,
         )
-        self.dropout_context = nn.Dropout(self.dropout_rate)
+        self.dropout_context = nn.Dropout(self.dropout)
         self.project = nn.Linear(self.hidden_dim * 2, self.context_final_dim)
         total_input_dim += self.context_final_dim
         self.lstm_stacked = nn.LSTM(
