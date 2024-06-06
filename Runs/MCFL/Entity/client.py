@@ -59,4 +59,6 @@ class ClientMCFL(Client):
             progress.update(task, advance=1)
         progress.stop_task(task)
         progress.update(task, visible=False)
-        console.log(f"Done updating model for client {self.cid}: :white_check_mark:")
+        console.log(
+            f"Done updating model for client {self.cid} with loss {loss.item()}: :white_check_mark:"
+        )
