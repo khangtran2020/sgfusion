@@ -18,7 +18,7 @@ def run(args, date, device):
     args.name = f"{args.pname}-run-{args.seed}-{args.country}-{date.day}{date.month}-{date.hour}{date.minute}"
     # read data
     with console.status("Initializing Data") as status:
-        data_dict = read_data(args=args)
+        data_dict = read_data(data_path=args.data_path, country=args.country)
         args.input_dim = 3
         args.output_dim = 1
         args.num_client = len(data_dict.keys())
