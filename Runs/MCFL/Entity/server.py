@@ -107,7 +107,7 @@ class ServerMCFL(Server):
             task = progress.add_task("[red]Broadcasting...", total=self.num_cluster)
             for i in range(self.num_cluster):
                 params = self.models[f"Cluster_{i}"].state_dict()
-                for client in self.client_dict["Cluster_{i}"]:
+                for client in self.client_dict[f"Cluster_{i}"]:
                     client.set_params(params=params)
                 progress.update(task, advance=1)
             progress.stop_task(task)
