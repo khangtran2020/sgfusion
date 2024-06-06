@@ -2,6 +2,7 @@ import os
 
 
 def read_data(data_path: str, country: str):
+    print("Country is:", country)
     list_of_client = [
         "_".join(f.split("_")[:-1])
         for f in os.listdir(data_path)
