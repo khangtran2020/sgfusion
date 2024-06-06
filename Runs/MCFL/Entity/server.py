@@ -72,6 +72,7 @@ class ServerMCFL(Server):
                 clustered_client[f"Cluster_{idx}"].append(self.clients[f"Client_{i}"])
                 progress.update(task, advance=1)
             progress.stop_task(task)
+            progress.update(task, visible=False)
 
             task = progress.add_task(
                 "[green]Computing cluster model...", total=self.num_client
@@ -96,6 +97,7 @@ class ServerMCFL(Server):
                 gc.collect()
                 progress.update(task, advance=1)
             progress.stop_task(task)
+            progress.update(task, visible=False)
 
             console.log(f"Done compute cluster models for Server: :white_check_mark:")
             self.client_dict = clustered_client
@@ -109,6 +111,7 @@ class ServerMCFL(Server):
                     client.set_params(params=params)
                 progress.update(task, advance=1)
             progress.stop_task(task)
+            progress.update(task, visible=False)
             console.log(
                 f"Done broadcasting cluster models for Server: :white_check_mark:"
             )

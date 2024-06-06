@@ -58,4 +58,5 @@ class ClientMCFL(Client):
                 self.optimizer.zero_grad()
             progress.update(task, advance=1)
         progress.stop_task(task)
+        progress.update(task, visible=False)
         console.log(f"Done updating model for client {self.cid}: :white_check_mark:")
