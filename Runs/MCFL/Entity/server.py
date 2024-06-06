@@ -78,7 +78,7 @@ class ServerMCFL(Server):
             )
             for i in range(self.num_cluster):
                 curr_cluster_model = None
-                for j, client in clustered_client[f"Cluster_{i}"]:
+                for j, client in enumerate(clustered_client[f"Cluster_{i}"]):
                     param = client.get_params()
                     if j == 0:
                         curr_cluster_model = deepcopy(param)
