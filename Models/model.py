@@ -74,14 +74,11 @@ class LSTMTarget(nn.Module):
         outputs = torch.tensor(batch[1]).float()
         return all_inputs, outputs
 
-    def forward(
-        self,
-        embedded_inputs: Tensor,
-    ) -> Tensor:
-        h_t = self.init_hidden(
-            embedded_inputs, n_layers=2
-        ).float()  # [num_layers(2), batch, hid(64)]
-        c_t = self.init_hidden(embedded_inputs, n_layers=2).float()
+    def forward(self, embedded_inputs: Tensor, device) -> Tensor:
+        h_t = (
+            self.init_hidden(embedded_inputs, n_layers=2).float().to(device)
+        )  # [num_layers(2), batch, hid(64)]
+        c_t = self.init_hidden(embedded_inputs, n_layers=2).float().to(device)
         result, (h_t, c_t) = self.lstm_stacked(
             embedded_inputs, (h_t, c_t)
         )  # result.shape = [bs, 450, hid]

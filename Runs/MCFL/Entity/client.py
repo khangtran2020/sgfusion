@@ -48,7 +48,7 @@ class ClientMCFL(Client):
             for batch in self.tr_loader:
                 inputs, target = self.model.embed_inputs(batch, device=self.device)
                 inputs = inputs.float().to(self.device)
-                out = self.model(inputs)
+                out = self.model.forward(inputs, device=self.device)
                 loss = (out - target.to(self.device)).pow(2).mean().sqrt()
                 loss.backward()
                 clip_grad_norm_(
