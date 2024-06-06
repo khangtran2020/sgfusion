@@ -92,7 +92,7 @@ class ServerMCFL(Server):
                     curr_cluster_model[key] = curr_cluster_model[key] / len(
                         clustered_client[f"Cluster_{i}"]
                     )
-                self.models[f"Cluster_{i}"] = curr_cluster_model
+                self.models[f"Cluster_{i}"].load_state_dict(curr_cluster_model)
                 del curr_cluster_model
                 gc.collect()
                 progress.update(task, advance=1)
