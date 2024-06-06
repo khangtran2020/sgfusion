@@ -28,7 +28,7 @@ def run(args, date, device):
         history = run_fedsem(
             args=args, data_dict=data_dict, device=device, history=history
         )
-    save_dict(path=os.path.join("results", f"{args.name}.pkl"), dct=history)
+    save_dict(path=os.path.join("results/dict", f"{args.name}.pkl"), dct=history)
     plot_learning_curve(args=args, history=history)
 
 
@@ -41,5 +41,11 @@ if __name__ == "__main__":
         seed_everything(args.seed)
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         console.log(f"DEVICE USING: {device}")
+        if os.path.exists("./results") == False:
+            os.mkdir("./results")
+        if os.path.exists("./results/model") == False:
+            os.mkdir("./results/model")
+        if os.path.exists("./results/dict") == False:
+            os.mkdir("./results/dict")
         console.log(f"[bold]Done Initializing!")
     run(args=args, date=date, device=device)
