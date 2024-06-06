@@ -29,7 +29,7 @@ class Server(object):
         num_data = 0
         total_loss = 0
         task = progress.add_task(f"[green]Evaluating {split}...", total=self.num_client)
-        for client in self.clients:
+        for _, client in self.clients.items():
             n_data, loss = client.eval_loss(split=split)
             num_data += n_data
             total_loss += loss
