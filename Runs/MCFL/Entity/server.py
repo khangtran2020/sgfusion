@@ -118,7 +118,7 @@ class ServerMCFL(Server):
 
     def save_cluster(self):
         save_dict(
-            os.path.join("results/models", f"{self.name}-cluster.pkl"),
+            os.path.join("results/model", f"{self.name}-cluster.pkl"),
             dct=self.client_dict,
         )
         for key, model in self.models.items():
