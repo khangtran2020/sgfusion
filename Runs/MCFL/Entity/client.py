@@ -23,7 +23,7 @@ class ClientMCFL(Client):
 
     def compute_cluster(self, params_list: List[OrderedDict]) -> int:
         with torch.no_grad():
-            local_state_dict = self.model.state_dict()
+            local_state_dict = self.model.to("cpu").state_dict()
             d_min = np.inf
             new_cluster = -1
             for i, params in enumerate(params_list):
