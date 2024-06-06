@@ -19,14 +19,12 @@ class Client(object):
         self,
         cid: int,
         data_path: str,
-        batch_size: int,
         updating_steps: int,
         device: torch.device,
         debug: bool,
     ) -> None:
         self.data_path = data_path
         self.cid = cid
-        self.batch_size = batch_size
         self.updating_steps = updating_steps
         self.device = device
         self.cluster = -1

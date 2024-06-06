@@ -7,7 +7,7 @@ from Runs.MCFL.Entity.server import ServerMCFL
 from Runs.MCFL.Entity.client import ClientMCFL
 
 
-def run(args: Namespace, data_dict: Dict, device: torch.device):
+def run(args: Namespace, data_dict: Dict, device: torch.device, history: Dict):
 
     # Create server
     server = ServerMCFL(num_cluster=args.num_cluster, num_client=args.num_client)
@@ -22,8 +22,8 @@ def run(args: Namespace, data_dict: Dict, device: torch.device):
     clients = []
     for i in range(args.num_client):
         client = ClientMCFL(
-            cid=i,
-            data_path=data_dict[i],
+            cid=data_dict[i]["cid"],
+            data_path=data_dict[i]["path"],
             batch_size=args.batch_size,
             updating_steps=args.client_updating_step,
             device=device,
@@ -57,4 +57,6 @@ def run(args: Namespace, data_dict: Dict, device: torch.device):
                         step, train_loss, test_loss
                     )
                 )
+                history["tr_loss"].append(train_loss)
+                history["te_loss"].append(test_loss)
             progress.update(task, advance=1)

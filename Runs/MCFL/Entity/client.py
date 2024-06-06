@@ -14,14 +14,12 @@ class ClientMCFL(Client):
         self,
         cid: int,
         data_path: str,
-        batch_size: int,
         updating_steps: int,
         device: torch.device,
     ) -> None:
         super(ClientMCFL, self).__init__(
             cid=cid,
             data_path=data_path,
-            batch_size=batch_size,
             updating_steps=updating_steps,
             device=device,
         )
