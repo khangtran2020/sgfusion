@@ -11,7 +11,9 @@ from Runs.MCFL.Entity.client import ClientMCFL
 def run(args: Namespace, data_dict: Dict, device: torch.device, history: Dict):
 
     # Create server
-    server = ServerMCFL(num_cluster=args.num_cluster, num_client=args.num_client)
+    server = ServerMCFL(
+        num_cluster=args.num_cluster, num_client=args.num_client, name=args.name
+    )
     server.init_model(
         input_dim=args.input_dim,
         output_dim=args.output_dim,
