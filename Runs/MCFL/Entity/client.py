@@ -44,13 +44,23 @@ class ClientMCFL(Client):
         self.model.train()
 
         task = progress.add_task("[blue]Training...", total=self.updating_steps)
+        num_batch = 0
         for step in range(self.updating_steps):
+            if step == 0:
+                org_loss = 0
+            if step == self.updating_steps - 1:
+                last_loss = 0
             for batch in self.tr_loader:
                 inputs, target = self.model.embed_inputs(batch, device=self.device)
                 inputs = inputs.float().to(self.device)
                 out = self.model.forward(inputs, device=self.device)
                 loss = (out - target.to(self.device)).pow(2).mean().sqrt()
                 loss.backward()
+                if step == 0:
+                    org_loss += loss.item()
+                    num_batch += 1
+                if step == self.updating_steps - 1:
+                    last_loss += loss.item()
                 clip_grad_norm_(
                     parameters=self.model.parameters(), max_norm=0.1, norm_type=2.0
                 )
@@ -60,5 +70,5 @@ class ClientMCFL(Client):
         progress.stop_task(task)
         progress.update(task, visible=False)
         console.log(
-            f"Done updating model for client {self.cid} with loss {loss.item()}: :white_check_mark:"
+            f"Done updating model for client {self.cid} with loss diff {(last_loss - org_loss)/(num_batch + 1e-12)}: :white_check_mark:"
         )
