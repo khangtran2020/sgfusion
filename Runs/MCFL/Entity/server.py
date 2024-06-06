@@ -83,11 +83,11 @@ class ServerMCFL(Server):
                     if j == 0:
                         curr_cluster_model = deepcopy(param)
                     else:
-                        for key in param.key():
+                        for key in param.keys():
                             curr_cluster_model[key] = (
                                 curr_cluster_model[key] + param[key]
                             )
-                for key in param.key():
+                for key in param.keys():
                     curr_cluster_model[key] = curr_cluster_model[key] / len(
                         clustered_client[f"Cluster_{i}"]
                     )
