@@ -1,6 +1,7 @@
 import os
 import gc
 import torch
+import pickle
 import numpy as np
 from Entity.server import Server
 from Models.model import LSTMTarget
@@ -124,3 +125,12 @@ class ServerMCFL(Server):
         for key, model in self.models.items():
             model = model.to("cpu")
             torch.save(model, os.path.join("results/model", f"{self.name}-{key}.pt"))
+
+    def load_best_cluster(self):
+        with open(os.path.join("results/model", f"{self.name}-cluster.pkl"), "rb") as f:
+            self.client_dict = pickle.load(f)
+
+        for key, model in self.models.items():
+            self.models[key] = torch.load(
+                os.path.join("results/model", f"{self.name}-{key}.pt")
+            )

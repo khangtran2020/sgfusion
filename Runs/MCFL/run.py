@@ -51,8 +51,6 @@ def run(args: Namespace, data_dict: Dict, device: torch.device, history: Dict):
             console.rule(f"Begin globale step: {step}")
             server.compute_centroid(progress=progress)
             server.broadcast_params(progress=progress)
-            for _, client in server.clients.items():
-                client.train(progress=progress)
             if (step % args.eval_step) == 0:
                 train_loss = server.evaluate(split="train", progress=progress)
                 test_loss = server.evaluate(split="test", progress=progress)
@@ -66,5 +64,18 @@ def run(args: Namespace, data_dict: Dict, device: torch.device, history: Dict):
                 if test_loss < best_loss:
                     best_loss = test_loss
                     server.save_cluster()
+            for _, client in server.clients.items():
+                client.train(progress=progress)
             progress.update(task, advance=1)
+        server.load_best_cluster()
+        server.broadcast_params(progress=progress)
+        train_loss = server.evaluate(split="train", progress=progress)
+        test_loss = server.evaluate(split="test", progress=progress)
+        console.log(
+            "Best results: train loss - {} | test loss - {}".format(
+                train_loss, test_loss
+            )
+        )
+        history["best_tr_loss"] = train_loss
+        history["best_te_loss"] = test_loss
     return history

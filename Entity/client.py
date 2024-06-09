@@ -32,7 +32,7 @@ class Client(object):
         with console.status(f"Initializing Data for Client {self.cid}") as status:
             with open(f"{self.data_path}_train.pkl", "rb") as pkl:
                 self.tr_loader = pickle.load(pkl)
-            with open(f"{self.data_path}_val.pkl", "rb") as pkl:
+            with open(f"{self.data_path}_test.pkl", "rb") as pkl:
                 self.te_loader = pickle.load(pkl)
             console.log(f"Done Reading data for client {self.cid}: :white_check_mark:")
 
