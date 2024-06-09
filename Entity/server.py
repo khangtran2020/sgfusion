@@ -36,5 +36,7 @@ class Server(object):
             progress.update(task, advance=1)
         progress.stop_task(task)
         progress.update(task, visible=False)
-        console.log(f"Done evaluating {split} for Server: :white_check_mark:")
+        console.log(
+            f"Done evaluating {split} for Server which has {num_data} data: :white_check_mark:"
+        )
         return np.sqrt(total_loss / (num_data + 1e-12))
