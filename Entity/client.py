@@ -69,6 +69,7 @@ class Client(object):
 
     def eval_loss(self, split: str) -> Tuple[int, float]:
         with torch.no_grad():
+            self.model.to(self.device)
             loader = self.tr_loader if split == "train" else self.te_loader
             num_data = 0
             total_loss = 0
