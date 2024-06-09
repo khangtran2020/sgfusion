@@ -48,4 +48,4 @@ if __name__ == "__main__":
         if os.path.exists("./results/dict") == False:
             os.mkdir("./results/dict")
         console.log(f"[bold]Done Initializing!")
-    # run(args=args, date=date, device=device)
+    run(args=args, date=date, device=device)
